@@ -1,0 +1,30 @@
+* text=auto
+
+*.cc   text eol=lf
+*.hh   text eol=lf
+*.h    text eol=lf
+*.c    text eol=lf
+*.cpp  text eol=lf
+*.slang text eol=lf
+*.glsl text eol=lf
+*.cmake text eol=lf
+CMakeLists.txt text eol=lf
+*.gradle text eol=lf
+*.xml  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.txt  text eol=lf
+*.sh   text eol=lf
+gradlew text eol=lf
+
+*.bat  text eol=crlf
+
+*.spv  binary
+*.otf  binary
+*.ttf  binary
+*.png  binary
+*.jpg  binary
+*.jar  binary
+*.a    binary
+*.so   binary
+*.o    binary

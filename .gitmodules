@@ -1,0 +1,6 @@
+[submodule "app/src/main/cpp/whisper.cpp"]
+	path = app/src/main/cpp/whisper.cpp
+	url = https://github.com/ggerganov/whisper.cpp
+[submodule "vulkan_canvas_engine"]
+	path = vulkan_canvas_engine
+	url = https://github.com/minervarr/vulkan_canvas_engine

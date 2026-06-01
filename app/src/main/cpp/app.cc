@@ -287,6 +287,31 @@ void App::init(ANativeWindow* window, AAssetManager* mgr) {
     }
   }
 
+  // ── MSDF text atlas ──────────────────────────────────────────────────────
+  if (msdfFont.load(mgr, "fonts/font.msdf", "fonts/atlas.rgba")) {
+    renderer.createMsdfResources(renderPass, msdfFont);
+    VkCommandBufferAllocateInfo ua{};
+    ua.sType              = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+    ua.commandPool        = commandPool;
+    ua.level              = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+    ua.commandBufferCount = 1;
+    VkCommandBuffer upCmd;
+    vkAllocateCommandBuffers(logicalDevice, &ua, &upCmd);
+    VkCommandBufferBeginInfo bi{};
+    bi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+    bi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+    vkBeginCommandBuffer(upCmd, &bi);
+    renderer.recordAtlasUpload(upCmd);
+    vkEndCommandBuffer(upCmd);
+    VkSubmitInfo si{};
+    si.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    si.commandBufferCount = 1;
+    si.pCommandBuffers    = &upCmd;
+    vkQueueSubmit(graphicsQueue, 1, &si, VK_NULL_HANDLE);
+    vkQueueWaitIdle(graphicsQueue);
+    vkFreeCommandBuffers(logicalDevice, commandPool, 1, &upCmd);
+  }
+
   // ── UI init ────────────────────────────────────────────────────────────────
   ui.init(swapchainExtent.width, swapchainExtent.height);
 
@@ -449,17 +474,26 @@ void App::drawFrame() {
 
   vkResetCommandBuffer(commandBuffer, 0);
 
-  if (ui.dirty) {
-    ui.rebuildCurves(scratchCurves, font.ftFace ? &font : nullptr);
+  // Rebuild geometry only when content changes — NOT on scroll. Scrolling just
+  // changes a shader push-constant offset (see drawMsdfRange below).
+  bool runCompute = ui.geomDirty;
+  if (ui.geomDirty) {
+    const MsdfFont* mf = msdfFont.valid() ? &msdfFont : nullptr;
+    ui.rebuildCurves(scratchCurves, font.ftFace ? &font : nullptr, mf, &scratchQuads);
     renderer.uploadCurves(scratchCurves.data(),
                           (uint32_t)(scratchCurves.size() / Renderer::CURVE_FLOATS));
-    ui.dirty = false;
+    renderer.uploadGlyphQuads(scratchQuads.data(),
+                              (uint32_t)(scratchQuads.size() / Renderer::MSDF_VERT_FLOATS));
+    ui.geomDirty = false;
   }
+  ui.dirty = false;
 
   VkCommandBufferBeginInfo bi{}; bi.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
   vkBeginCommandBuffer(commandBuffer, &bi);
 
-  renderer.dispatch(commandBuffer);
+  if (runCompute) {
+    renderer.dispatch(commandBuffer);
+  }
 
   // GENERAL -> SHADER_READ_ONLY_OPTIMAL for composite fragment shader
   {
@@ -467,14 +501,14 @@ void App::drawFrame() {
     b.sType               = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     b.oldLayout           = VK_IMAGE_LAYOUT_GENERAL;
     b.newLayout           = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    b.srcAccessMask       = VK_ACCESS_SHADER_WRITE_BIT;
+    b.srcAccessMask       = runCompute ? VK_ACCESS_SHADER_WRITE_BIT : 0;
     b.dstAccessMask       = VK_ACCESS_SHADER_READ_BIT;
     b.image               = renderer.outputImage;
     b.subresourceRange    = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1};
     b.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
     b.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
     vkCmdPipelineBarrier(commandBuffer,
-                         VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                         runCompute ? VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT : VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
                          VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
                          0, 0, nullptr, 0, nullptr, 1, &b);
   }
@@ -498,6 +532,21 @@ void App::drawFrame() {
   vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                           pipelineLayout, 0, 1, &compositeSet, 0, nullptr);
   vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+
+  // MSDF text over the composited background. Chrome (status/buttons) is drawn
+  // unscrolled over the whole screen; the transcription is drawn with a scroll
+  // offset and clipped to its band — scrolling touches no vertex data.
+  uint32_t chromeVerts = ui.chromeVertCount();
+  uint32_t totalVerts  = renderer.msdfVerts();
+  renderer.drawMsdfRange(commandBuffer, 0, chromeVerts, 0.0f, 0.0f,
+                         0, 0, swapchainExtent.width, swapchainExtent.height);
+  if (totalVerts > chromeVerts) {
+    int32_t bx, by; uint32_t bw, bh;
+    ui.textBand(bx, by, bw, bh);
+    renderer.drawMsdfRange(commandBuffer, chromeVerts, totalVerts - chromeVerts,
+                           0.0f, -ui.textScrollPx(), bx, by, bw, bh);
+  }
+
   vkCmdEndRenderPass(commandBuffer);
 
   // SHADER_READ_ONLY_OPTIMAL -> GENERAL for next frame's compute

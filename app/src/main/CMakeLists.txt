@@ -27,7 +27,7 @@ set(GGML_CUDA              OFF CACHE BOOL "" FORCE)
 add_subdirectory(cpp/whisper.cpp whisper_build)
 
 # Copy pre-compiled SPIR-V shaders from font engine assets into this app's assets
-set(SHADER_NAMES composite_vert composite_frag tiling coverage)
+set(SHADER_NAMES composite_vert composite_frag tiling coverage msdf_vert msdf_frag)
 set(SHADER_OUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/assets/shaders)
 file(MAKE_DIRECTORY ${SHADER_OUT_DIR})
 foreach(SHADER ${SHADER_NAMES})
@@ -45,17 +45,19 @@ add_library(whisper_android SHARED
     cpp/audio.cc
     cpp/transcribe.cc
     ${VCE_CPP}/canvas.cc
-    ${VCE_CPP}/renderer.cc
+    ${VCE_CPP}/textarea.cc
+    ${VFE_CPP}/renderer.cc
     ${VFE_CPP}/font.cc
     ${VFE_CPP}/glyphs.cc
+    ${VFE_CPP}/msdf.cc
     ${NATIVE_APP_GLUE}/android_native_app_glue.c
 )
 
 target_include_directories(whisper_android PRIVATE
     ${NATIVE_APP_GLUE}
     cpp/
-    ${VCE_CPP}
     ${VFE_CPP}
+    ${VCE_CPP}
     ${VFE_MAIN}/freetype/include
     cpp/whisper.cpp/
     cpp/whisper.cpp/include/
@@ -63,7 +65,9 @@ target_include_directories(whisper_android PRIVATE
 
 target_compile_options(whisper_android PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
-    -O2
+    -O3
+    -ffast-math
+    -flto
 )
 
 target_link_libraries(whisper_android

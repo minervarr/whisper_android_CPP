@@ -7,6 +7,7 @@
 #include <vector>
 #include "renderer.hh"
 #include "font.hh"
+#include "msdf.hh"
 #include "ui.hh"
 
 class App {
@@ -40,7 +41,9 @@ class App {
 
   Renderer renderer;
   Font     font;
+  MsdfFont msdfFont;
   std::vector<float> scratchCurves;
+  std::vector<float> scratchQuads;
 
   uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags required);
 

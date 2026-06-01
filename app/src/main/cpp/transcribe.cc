@@ -113,6 +113,29 @@ whisper_context* loadModel(const char* internalDataPath, AAssetManager* assetMgr
   return ctx;
 }
 
+whisper_context* loadModelFromPath(const char* modelPath, std::string& outModelName) {
+  if (!modelPath || modelPath[0] == '\0') {
+    outModelName = "NO MODEL";
+    return nullptr;
+  }
+  size_t sep = std::string(modelPath).rfind('/');
+  outModelName = (sep != std::string::npos)
+      ? std::string(modelPath).substr(sep + 1)
+      : std::string(modelPath);
+
+  LOGI("Loading model from path: %s", modelPath);
+  whisper_context_params cparams = whisper_context_default_params();
+  cparams.use_gpu = false;
+  whisper_context* ctx = whisper_init_from_file_with_params(modelPath, cparams);
+  if (!ctx) {
+    LOGE("whisper_init_from_file failed for: %s", modelPath);
+    outModelName = "LOAD FAILED";
+    return nullptr;
+  }
+  LOGI("Model loaded OK: %s", outModelName.c_str());
+  return ctx;
+}
+
 void transcribeAsync(whisper_context* ctx,
                      std::vector<float> samples,
                      std::function<void(TranscribeResult)> callback) {
@@ -129,6 +152,7 @@ void transcribeAsync(whisper_context* ctx,
     params.print_timestamps     = false;
     params.single_segment       = false;
     params.suppress_blank       = true;
+    params.greedy.best_of       = 1;  // default 5 runs decoder 5× — 1 is ~5× faster
 
     int rc = whisper_full(ctx, params, samples.data(), (int)samples.size());
     if (rc != 0) {

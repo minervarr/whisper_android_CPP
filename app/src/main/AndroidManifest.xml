@@ -2,18 +2,28 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application>
         <activity
-            android:name="android.app.NativeActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Whisper">
+            android:label="Whisper"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
+            android:exported="true"
+            android:launchMode="singleTask">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="whisper_android" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Accepts model path from FileX or any other app -->
+            <intent-filter>
+                <action android:name="io.nava.whisper.LOAD_MODEL" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

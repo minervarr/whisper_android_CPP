@@ -16,6 +16,9 @@ struct TranscribeResult {
 whisper_context* loadModel(const char* internalDataPath, AAssetManager* assetMgr,
                            std::string& outModelName);
 
+// Load model from an explicit absolute path (e.g. picked via file picker).
+whisper_context* loadModelFromPath(const char* modelPath, std::string& outModelName);
+
 // Starts transcription in a detached thread. Calls callback on the result
 // from that thread — caller must synchronize (e.g. atomic flag + main loop).
 void transcribeAsync(whisper_context* ctx,

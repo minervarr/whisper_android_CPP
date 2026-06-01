@@ -1,0 +1,161 @@
+--------- beginning of system
+06-01 02:36:58.907 I/ActivityManager( 1946): Start proc 24978:com.android.settings/1000 for next-top-activity {com.android.settings/com.android.settings.applications.InstalledAppDetails}
+06-01 02:37:01.105 I/ActivityManager( 1946): Start proc 25044:com.google.android.packageinstaller/u0a69 for next-top-activity {com.google.android.packageinstaller/com.android.packageinstaller.UninstallerActivity}
+06-01 02:37:02.116 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10268 user=0: deletePackageX
+06-01 02:37:02.194 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10268 user=0: pkg removed
+06-01 02:37:02.380 I/ActivityManager( 1946): Start proc 25093:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+06-01 02:37:02.771 I/ActivityManager( 1946): Start proc 25122:com.android.chrome/u0a153 for broadcast {com.android.chrome/org.chromium.chrome.browser.browserservices.InstalledWebappBroadcastReceiver}
+06-01 02:37:03.051 I/ActivityManager( 1946): Start proc 25181:com.google.android.apps.carrier.carrierwifi/u0a129 for broadcast {com.google.android.apps.carrier.carrierwifi/com.google.android.apps.carrier.carrierwifi.CarrierWifiReceiver}
+06-01 02:37:03.137 I/ActivityManager( 1946): Start proc 25199:com.google.android.apps.nbu.files/u0a133 for broadcast {com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.documentbrowser.browselanding.rootcontainerlist.receiver.PackageChangeReceiver_Receiver}
+06-01 02:37:03.286 I/ActivityManager( 1946): Start proc 25227:com.google.android.apps.wellbeing/u0a146 for broadcast {com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.common.receiver.coalescedreceivers.PackageFullyRemovedCoalescedBroadcast_Receiver}
+06-01 02:37:03.400 I/ActivityManager( 1946): Start proc 25250:com.google.android.documentsui/u0a70 for broadcast {com.google.android.documentsui/com.android.documentsui.PackageReceiver}
+06-01 02:37:03.516 I/ActivityManager( 1946): Killing 25044:com.google.android.packageinstaller/u0a69 (adj 905): empty #8
+06-01 02:37:03.525 I/ActivityManager( 1946): Start proc 25288:com.google.android.videos/u0a172 for broadcast {com.google.android.videos/com.google.android.libraries.social.peoplekit.thirdparty.viewcontrollers.ThirdPartyReceiver}
+06-01 02:37:03.540 I/ActivityManager( 1946): Start proc 25289:com.google.android.apps.docs/u0a156 for content provider {com.google.android.apps.docs/com.google.android.apps.docs.common.storagebackend.StorageBackendContentProvider}
+06-01 02:37:03.565 W/ActivityManager( 1946): setHasOverlayUi called on unknown pid: 25044
+06-01 02:37:03.729 I/ActivityManager( 1946): Killing 25093:com.android.keychain/1000 (adj 905): empty #8
+06-01 02:37:03.794 I/ActivityManager( 1946): Start proc 25368:android.process.media/u0a65 for broadcast {com.android.providers.downloads/com.android.providers.downloads.DownloadReceiver}
+06-01 02:37:03.813 I/ActivityManager( 1946): Killing 24242:com.android.vending:background/u0a147 (adj 905): empty #8
+06-01 02:37:03.900 I/ActivityManager( 1946): Killing 25122:com.android.chrome/u0a153 (adj 905): empty #8
+06-01 02:37:03.906 I/ActivityManager( 1946): Start proc 25386:com.motorola.motosecurecore/u0a184 for broadcast {com.motorola.motosecurecore/com.motorola.motosecurecore.listener.PackageChangedReceiver}
+06-01 02:37:03.994 I/ActivityManager( 1946): Killing 24159:com.android.vending/u0a147 (adj 905): empty #8
+06-01 02:37:05.250 I/ActivityManager( 1946): Killing 25181:com.google.android.apps.carrier.carrierwifi/u0a129 (adj 905): empty #8
+06-01 02:37:06.346 W/ActivityManager( 1946): pid 2950 com.android.systemui sent binder code 2 with flags 1 to frozen apps and got error -32
+06-01 02:37:10.345 I/ActivityManager( 1946): Start proc 25426:com.android.vending/u0a147 for broadcast {com.android.vending/com.google.android.finsky.verifier.impl.PackageVerificationReceiver}
+06-01 02:37:10.600 I/ActivityManager( 1946): Killing 25199:com.google.android.apps.nbu.files/u0a133 (adj 905): empty #8
+06-01 02:37:10.756 I/ActivityManager( 1946): Start proc 25470:com.google.android.packageinstaller/u0a69 for broadcast {com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver}
+06-01 02:37:10.887 I/ActivityManager( 1946): Killing 25227:com.google.android.apps.wellbeing/u0a146 (adj 905): empty #8
+06-01 02:37:11.264 I/ActivityManager( 1946): Start proc 25495:com.google.android.apps.wellbeing/u0a146 for content provider {com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.api.impl.WellbeingSettingsProvider}
+06-01 02:37:11.634 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10269 user=-1: installPackageLI
+06-01 02:37:11.698 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10269 user=0: pkg removed
+06-01 02:37:11.736 I/ActivityManager( 1946): Start proc 25553:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+06-01 02:37:11.866 W/ActivityManager( 1946): Slow operation: 92ms so far, now at startProcess: done updating battery stats
+06-01 02:37:11.867 W/ActivityManager( 1946): Slow operation: 93ms so far, now at startProcess: building log message
+06-01 02:37:11.867 I/ActivityManager( 1946): Start proc 25563:com.android.vending:background/u0a147 for broadcast {com.android.vending/com.google.android.finsky.packagemonitor.backgroundimpl.BackgroundPackageMonitorReceiverImpl$RegisteredReceiver}
+06-01 02:37:11.867 W/ActivityManager( 1946): Slow operation: 93ms so far, now at startProcess: starting to update pids map
+06-01 02:37:11.867 W/ActivityManager( 1946): Slow operation: 93ms so far, now at startProcess: done updating pids map
+06-01 02:37:11.966 I/ActivityManager( 1946): Killing 25250:com.google.android.documentsui/u0a70 (adj 965): empty #8
+06-01 02:37:12.111 I/ActivityManager( 1946): Start proc 25599:com.google.android.apps.nbu.files/u0a133 for broadcast {com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.documentbrowser.browselanding.rootcontainerlist.receiver.PackageChangeReceiver_Receiver}
+06-01 02:37:12.329 I/ActivityManager( 1946): Killing 25289:com.google.android.apps.docs/u0a156 (adj 955): empty #8
+06-01 02:37:12.363 I/ActivityManager( 1946): Start proc 25652:com.motorola.securityhub/u0a189 for broadcast {com.motorola.securityhub/com.motorola.securityhub.receiver.ApkInstallationReceiver}
+06-01 02:37:12.481 I/ActivityManager( 1946): Killing 25288:com.google.android.videos/u0a172 (adj 945): empty #8
+06-01 02:37:12.626 I/ActivityManager( 1946): Killing 25368:android.process.media/u0a65 (adj 935): empty #8
+06-01 02:37:13.314 I/ActivityManager( 1946): Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10146; uidState: BTOP; uidBFSL: [BFSL]; intent: Intent { cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<null>; targetSdkVersion:34; callerTargetSdkVersion:34; startForegroundCount:0; bindFromPackage:null: isBindService:false]
+06-01 02:37:13.742 W/ActivityManager( 1946): pid 1946 system sent binder code 2 with flags 1 to frozen apps and got error -32
+06-01 02:37:14.114 I/ActivityManager( 1946): Start proc 25708:io.nava.whisper/u0a269 for next-top-activity {io.nava.whisper/io.nava.whisper.MainActivity}
+--------- beginning of main
+06-01 02:37:18.611 I/Transcribe(25708): No model in /data/user/0/io.nava.whisper/files/models, checking assets...
+06-01 02:37:18.614 E/Transcribe(25708): No model found in internal storage or assets
+06-01 02:37:19.839 I/ActivityManager( 1946): Killing 25470:com.google.android.packageinstaller/u0a69 (adj 955): empty #8
+06-01 02:37:19.990 I/ActivityManager( 1946): Start proc 25799:io.nava.filex/u0a234 for next-top-activity {io.nava.filex/io.nava.filex.MainActivity}
+06-01 02:37:22.737 I/ActivityManager( 1946): Killing 25553:com.android.keychain/1000 (adj 965): empty #8
+06-01 02:41:01.778 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10269 user=-1: installPackageLI
+06-01 02:41:01.783 I/ActivityManager( 1946): Killing 25708:io.nava.whisper/u0a269 (adj 0): stop io.nava.whisper due to installPackageLI
+06-01 02:41:01.849 I/ActivityManager( 1946): Killing 25599:com.google.android.apps.nbu.files/u0a133 (adj 975): empty #8
+06-01 02:41:01.855 W/ActivityManager( 1946): setHasOverlayUi called on unknown pid: 25708
+06-01 02:41:01.865 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10269 user=0: pkg removed
+06-01 02:41:01.951 W/ActivityManager( 1946): Slow operation: 55ms so far, now at startProcess: done updating battery stats
+06-01 02:41:01.952 W/ActivityManager( 1946): Slow operation: 56ms so far, now at startProcess: building log message
+06-01 02:41:01.952 I/ActivityManager( 1946): Start proc 26162:com.google.android.partnersetup/u0a134 for service {com.google.android.partnersetup/com.google.android.partnersetup.InstalledAppJobService}
+06-01 02:41:01.952 W/ActivityManager( 1946): Slow operation: 56ms so far, now at startProcess: starting to update pids map
+06-01 02:41:01.953 W/ActivityManager( 1946): Slow operation: 57ms so far, now at startProcess: done updating pids map
+06-01 02:41:02.052 W/ActivityManager( 1946): Slow operation: 60ms so far, now at startProcess: building log message
+06-01 02:41:02.052 I/ActivityManager( 1946): Start proc 26176:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+06-01 02:41:02.052 W/ActivityManager( 1946): Slow operation: 60ms so far, now at startProcess: starting to update pids map
+06-01 02:41:02.053 W/ActivityManager( 1946): Slow operation: 61ms so far, now at startProcess: done updating pids map
+06-01 02:41:02.151 I/ActivityManager( 1946): Killing 25386:com.motorola.motosecurecore/u0a184 (adj 965): empty #8
+06-01 02:41:02.342 I/ActivityManager( 1946): Start proc 26198:com.google.android.apps.turbo:aab/u0a144 for service {com.google.android.apps.turbo/com.google.android.libraries.smartbattery.appusage.library.InferAppBucketsJob}
+06-01 02:41:02.468 I/ActivityManager( 1946): Start proc 26224:com.motorola.motosecurecore/u0a184 for broadcast {com.motorola.motosecurecore/com.motorola.motosecurecore.listener.PackageChangedReceiver}
+06-01 02:41:03.014 I/ActivityManager( 1946): Start proc 26283:com.android.chrome/u0a153 for broadcast {com.android.chrome/com.google.android.apps.chrome.rlz.RevenueStatsConfigurationUpdateReceiver}
+06-01 02:41:03.148 I/ActivityManager( 1946): Killing 25652:com.motorola.securityhub/u0a189 (adj 955): empty #8
+06-01 02:41:03.328 I/ActivityManager( 1946): Killing 25799:io.nava.filex/u0a234 (adj 935): empty #8
+06-01 02:41:03.389 W/ActivityManager( 1946): setHasOverlayUi called on unknown pid: 25799
+06-01 02:41:14.259 I/ActivityManager( 1946): Start proc 26321:io.nava.whisper/u0a269 for next-top-activity {io.nava.whisper/io.nava.whisper.MainActivity}
+06-01 02:41:14.913 I/Transcribe(26321): Loading model from path: /storage/emulated/0/Documents/ggml-base.bin
+06-01 02:41:15.373 I/Transcribe(26321): Model loaded OK: ggml-base.bin
+06-01 02:41:17.922 I/ActivityManager( 1946): Killing 26176:com.android.keychain/1000 (adj 965): empty #8
+06-01 02:41:19.927 I/ActivityManager( 1946): Killing 25563:com.android.vending:background/u0a147 (adj 965): empty #8
+06-01 02:41:19.929 I/ActivityManager( 1946): Killing 26321:io.nava.whisper/u0a269 (adj 905): remove task
+06-01 02:41:20.051 W/ActivityManager( 1946): setHasOverlayUi called on unknown pid: 26321
+06-01 02:41:25.268 I/ActivityManager( 1946): Start proc 26418:io.nava.whisper/u0a269 for next-top-activity {io.nava.whisper/io.nava.whisper.MainActivity}
+06-01 02:41:25.914 I/Transcribe(26418): Loading model from path: /storage/emulated/0/Documents/ggml-base.bin
+06-01 02:41:26.298 I/Transcribe(26418): Model loaded OK: ggml-base.bin
+06-01 02:41:33.004 I/ActivityManager( 1946): Start proc 26502:com.google.android.packageinstaller/u0a69 for next-top-activity {com.google.android.packageinstaller/com.android.packageinstaller.UninstallerActivity}
+06-01 02:41:33.917 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10269 user=0: deletePackageX
+06-01 02:41:33.920 I/ActivityManager( 1946): Killing 26418:io.nava.whisper/u0a269 (adj 700): stop io.nava.whisper due to deletePackageX
+06-01 02:41:34.007 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10269 user=0: pkg removed
+06-01 02:41:34.072 I/ActivityManager( 1946): Killing 25495:com.google.android.apps.wellbeing/u0a146 (adj 965): empty #8
+06-01 02:41:34.131 I/ActivityManager( 1946): Start proc 26549:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+06-01 02:41:34.138 W/ActivityManager( 1946): setHasOverlayUi called on unknown pid: 26418
+06-01 02:41:34.401 I/ActivityManager( 1946): Killing 26224:com.motorola.motosecurecore/u0a184 (adj 965): empty #8
+06-01 02:41:34.625 W/ActivityManager( 1946): Slow operation: 76ms so far, now at startProcess: done updating battery stats
+06-01 02:41:34.630 W/ActivityManager( 1946): Slow operation: 80ms so far, now at startProcess: building log message
+06-01 02:41:34.630 I/ActivityManager( 1946): Start proc 26581:com.android.vending:background/u0a147 for broadcast {com.android.vending/com.google.android.finsky.packagemonitor.backgroundimpl.BackgroundPackageMonitorReceiverImpl$RegisteredReceiver}
+06-01 02:41:34.630 W/ActivityManager( 1946): Slow operation: 80ms so far, now at startProcess: starting to update pids map
+06-01 02:41:34.630 W/ActivityManager( 1946): Slow operation: 81ms so far, now at startProcess: done updating pids map
+06-01 02:41:34.888 I/ActivityManager( 1946): Start proc 26641:com.google.android.apps.carrier.carrierwifi/u0a129 for broadcast {com.google.android.apps.carrier.carrierwifi/com.google.android.apps.carrier.carrierwifi.CarrierWifiReceiver}
+06-01 02:41:34.971 I/ActivityManager( 1946): Killing 26162:com.google.android.partnersetup/u0a134 (adj 965): empty #8
+06-01 02:41:34.974 I/ActivityManager( 1946): Start proc 26669:com.google.android.apps.nbu.files/u0a133 for broadcast {com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.documentbrowser.browselanding.rootcontainerlist.receiver.PackageChangeReceiver_Receiver}
+06-01 02:41:35.097 I/ActivityManager( 1946): Killing 26198:com.google.android.apps.turbo:aab/u0a144 (adj 945): empty #8
+06-01 02:41:35.106 I/ActivityManager( 1946): Start proc 26712:com.google.android.apps.wellbeing/u0a146 for broadcast {com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.common.receiver.coalescedreceivers.PackageFullyRemovedCoalescedBroadcast_Receiver}
+06-01 02:41:35.223 I/ActivityManager( 1946): Start proc 26742:com.google.android.documentsui/u0a70 for broadcast {com.google.android.documentsui/com.android.documentsui.PackageReceiver}
+06-01 02:41:35.345 I/ActivityManager( 1946): Killing 26502:com.google.android.packageinstaller/u0a69 (adj 915): empty #8
+06-01 02:41:35.349 I/ActivityManager( 1946): Start proc 26782:com.google.android.videos/u0a172 for broadcast {com.google.android.videos/com.google.android.libraries.social.peoplekit.thirdparty.viewcontrollers.ThirdPartyReceiver}
+06-01 02:41:35.363 I/ActivityManager( 1946): Start proc 26783:com.google.android.apps.docs/u0a156 for content provider {com.google.android.apps.docs/com.google.android.apps.docs.common.storagebackend.StorageBackendContentProvider}
+06-01 02:41:35.389 W/ActivityManager( 1946): setHasOverlayUi called on unknown pid: 26502
+06-01 02:41:35.558 I/ActivityManager( 1946): Killing 26549:com.android.keychain/1000 (adj 905): empty #8
+06-01 02:41:35.644 I/ActivityManager( 1946): Start proc 26861:android.process.media/u0a65 for broadcast {com.android.providers.downloads/com.android.providers.downloads.DownloadReceiver}
+06-01 02:41:35.655 I/ActivityManager( 1946): Killing 26283:com.android.chrome/u0a153 (adj 905): empty #8
+06-01 02:41:35.743 I/ActivityManager( 1946): Killing 25426:com.android.vending/u0a147 (adj 905): empty #8
+06-01 02:41:35.755 I/ActivityManager( 1946): Start proc 26877:com.motorola.motosecurecore/u0a184 for broadcast {com.motorola.motosecurecore/com.motorola.motosecurecore.listener.PackageChangedReceiver}
+06-01 02:41:35.848 I/ActivityManager( 1946): Killing 26581:com.android.vending:background/u0a147 (adj 905): empty #8
+06-01 02:41:37.153 I/ActivityManager( 1946): Killing 26641:com.google.android.apps.carrier.carrierwifi/u0a129 (adj 905): empty #8
+06-01 02:41:38.173 W/ActivityManager( 1946): pid 2950 com.android.systemui sent binder code 2 with flags 1 to frozen apps and got error -32
+06-01 02:41:41.419 I/ActivityManager( 1946): Start proc 26919:com.android.vending/u0a147 for broadcast {com.android.vending/com.google.android.finsky.verifier.impl.PackageVerificationReceiver}
+06-01 02:41:41.650 I/ActivityManager( 1946): Start proc 26962:com.google.android.gms.unstable/u0a140 for service {com.google.android.gms/com.google.android.gms.droidguard.DroidGuardService}
+06-01 02:41:41.708 I/ActivityManager( 1946): Start proc 26994:com.android.vending:background/u0a147 for service {com.android.vending/com.google.frameworks.client.data.android.server.play.BackgroundProcessEndpointService}
+06-01 02:41:41.717 I/ActivityManager( 1946): Killing 26669:com.google.android.apps.nbu.files/u0a133 (adj 905): empty #8
+06-01 02:41:41.798 W/ActivityManager( 1946): Slow operation: 52ms so far, now at attachApplicationLocked: before bindApplication
+06-01 02:41:41.799 W/ActivityManager( 1946): Slow operation: 54ms so far, now at attachApplicationLocked: immediately before bindApplication
+06-01 02:41:41.801 W/ActivityManager( 1946): Slow operation: 56ms so far, now at attachApplicationLocked: immediately after bindApplication
+06-01 02:41:41.803 W/ActivityManager( 1946): Slow operation: 57ms so far, now at attachApplicationLocked: after updateLruProcessLocked
+06-01 02:41:41.804 W/ActivityManager( 1946): Slow operation: 58ms so far, now at attachApplicationLocked: after updateOomAdjLocked
+06-01 02:41:41.918 I/ActivityManager( 1946): Start proc 27021:com.google.android.packageinstaller/u0a69 for broadcast {com.google.android.packageinstaller/com.android.packageinstaller.PackageInstalledReceiver}
+06-01 02:41:42.015 I/ActivityManager( 1946): Killing 26712:com.google.android.apps.wellbeing/u0a146 (adj 905): empty #8
+06-01 02:41:42.086 I/ActivityManager( 1946): Killing 26742:com.google.android.documentsui/u0a70 (adj 905): empty #8
+06-01 02:41:42.130 I/ActivityManager( 1946): Killing 26783:com.google.android.apps.docs/u0a156 (adj 905): empty #8
+06-01 02:41:42.448 W/ActivityManager( 1946): Slow operation: 71ms so far, now at startProcess: done updating battery stats
+06-01 02:41:42.449 W/ActivityManager( 1946): Slow operation: 72ms so far, now at startProcess: building log message
+06-01 02:41:42.450 I/ActivityManager( 1946): Start proc 27106:com.google.android.apps.wellbeing/u0a146 for content provider {com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.api.impl.WellbeingSettingsProvider}
+06-01 02:41:42.450 W/ActivityManager( 1946): Slow operation: 72ms so far, now at startProcess: starting to update pids map
+06-01 02:41:42.450 W/ActivityManager( 1946): Slow operation: 73ms so far, now at startProcess: done updating pids map
+06-01 02:41:42.866 I/ActivityManager( 1946): Start proc 27182:io.nava.whisper/u0a270 for next-top-activity {io.nava.whisper/io.nava.whisper.MainActivity}
+06-01 02:41:42.934 I/ActivityManager( 1946): Start proc 27184:com.google.android.apps.nbu.files/u0a133 for broadcast {com.google.android.apps.nbu.files/com.google.android.apps.nbu.files.documentbrowser.browselanding.rootcontainerlist.receiver.PackageChangeReceiver_Receiver}
+06-01 02:41:42.934 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10270 user=-1: installPackageLI
+06-01 02:41:42.942 E/ActivityManager( 1946): Unable to freeze binder for 27182: java.lang.RuntimeException: Unable to freeze/unfreeze binder
+06-01 02:41:42.951 I/ActivityManager( 1946): Killing 27182:io.nava.whisper/u0a270 (adj -10000): stop io.nava.whisper due to installPackageLI
+06-01 02:41:43.086 I/ActivityManager( 1946): Force stopping io.nava.whisper appid=10270 user=0: pkg removed
+06-01 02:41:43.293 W/ActivityManager( 1946): Slow operation: 63ms so far, now at startProcess: done updating battery stats
+06-01 02:41:43.293 W/ActivityManager( 1946): Slow operation: 64ms so far, now at startProcess: building log message
+06-01 02:41:43.293 I/ActivityManager( 1946): Start proc 27215:com.android.keychain/1000 for service {com.android.keychain/com.android.keychain.KeyChainService}
+06-01 02:41:43.293 W/ActivityManager( 1946): Slow operation: 64ms so far, now at startProcess: starting to update pids map
+06-01 02:41:43.293 W/ActivityManager( 1946): Slow operation: 64ms so far, now at startProcess: done updating pids map
+06-01 02:41:43.341 I/ActivityManager( 1946): Start proc 27230:com.motorola.securityhub/u0a189 for broadcast {com.motorola.securityhub/com.motorola.securityhub.receiver.ApkInstallationReceiver}
+06-01 02:41:43.346 I/ActivityManager( 1946): Killing 26782:com.google.android.videos/u0a172 (adj 955): empty #8
+06-01 02:41:43.476 I/ActivityManager( 1946): Killing 26861:android.process.media/u0a65 (adj 945): empty #8
+06-01 02:41:43.510 I/ActivityManager( 1946): Start proc 27255:com.android.rkpdapp/u0a218 for service {com.android.rkpdapp/com.android.rkpdapp.service.RemoteProvisioningService}
+06-01 02:41:43.562 I/ActivityManager( 1946): Killing 26877:com.motorola.motosecurecore/u0a184 (adj 935): empty #8
+06-01 02:41:43.734 I/ActivityManager( 1946): Start proc 27292:com.motorola.motosecurecore/u0a184 for broadcast {com.motorola.motosecurecore/com.motorola.motosecurecore.listener.PackageChangedReceiver}
+06-01 02:41:43.809 I/ActivityManager( 1946): Killing 27021:com.google.android.packageinstaller/u0a69 (adj 925): empty #8
+06-01 02:41:44.019 I/ActivityManager( 1946): Killing 27184:com.google.android.apps.nbu.files/u0a133 (adj 905): empty #8
+06-01 02:41:44.487 I/ActivityManager( 1946): Background started FGS: Allowed [callingPackage: com.google.android.apps.wellbeing; callingUid: 10146; uidState: BTOP; uidBFSL: [BFSL]; intent: Intent { cmp=com.google.android.apps.wellbeing/com.google.apps.tiktok.concurrent.InternalForegroundService (has extras) }; code:BACKGROUND_ACTIVITY_PERMISSION; tempAllowListReason:<null>; targetSdkVersion:34; callerTargetSdkVersion:34; startForegroundCount:0; bindFromPackage:null: isBindService:false]
+06-01 02:41:44.771 I/ActivityManager( 1946): Start proc 27333:io.nava.whisper/u0a270 for next-top-activity {io.nava.whisper/io.nava.whisper.MainActivity}
+06-01 02:41:45.567 W/ActivityManager( 1946): pid 1946 system sent binder code 2 with flags 1 to frozen apps and got error -32
+06-01 02:41:49.151 I/Transcribe(27333): No model in /data/user/0/io.nava.whisper/files/models, checking assets...
+06-01 02:41:49.153 E/Transcribe(27333): No model found in internal storage or assets
+06-01 02:41:50.521 I/ActivityManager( 1946): Start proc 27429:io.nava.filex/u0a234 for next-top-activity {io.nava.filex/io.nava.filex.MainActivity}
+06-01 02:41:52.216 I/ActivityManager( 1946): Killing 27215:com.android.keychain/1000 (adj 945): empty #8
+06-01 02:41:53.092 I/Transcribe(27333): Loading model from path: /storage/emulated/0/Documents/ggml-base.bin
+06-01 02:41:53.143 I/ActivityManager( 1946): Killing 27230:com.motorola.securityhub/u0a189 (adj 965): empty #8
+06-01 02:41:53.536 I/Transcribe(27333): Model loaded OK: ggml-base.bin
+06-01 02:41:53.744 I/ActivityManager( 1946): Process com.android.rkpdapp (pid 27255) has died: cch+65 CEM 

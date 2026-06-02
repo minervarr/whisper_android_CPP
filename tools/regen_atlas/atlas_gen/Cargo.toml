@@ -1,0 +1,20 @@
+[package]
+name = "atlas_gen"
+version = "0.1.0"
+edition = "2021"
+
+# Pure-Rust font rasteriser (no C/native deps; cargo fetches it from crates.io).
+# We only use it to turn each glyph outline into a coverage bitmap + metrics;
+# all the signed-distance-field math, packing and the bespoke font.msdf binary
+# format are implemented here.
+[dependencies]
+ab_glyph = "0.2.32"
+fontdue = "0.9"
+
+[profile.release]
+opt-level = 3
+
+[[bin]]
+name = "test_ab"
+path = "src/test_ab.rs"
+

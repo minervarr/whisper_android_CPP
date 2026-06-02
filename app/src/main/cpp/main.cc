@@ -1,5 +1,6 @@
 #include "app.hh"
 #include "audio.hh"
+#include "archive.hh"
 #include "transcribe.hh"
 #include "whisper.h"
 #include <android_native_app_glue.h>
@@ -131,6 +132,16 @@ struct WhisperApp {
   // Survives TERM_WINDOW so we can restore the UI without reloading.
   std::string       loadedModelName;
 
+  // Transcription text survives TERM_WINDOW here (the App/Ui is rebuilt), so an
+  // app-switch never loses what was dictated. Persisted to disk for survival
+  // across a full process death.
+  std::string         savedTranscription;
+  archive::RecordStore history;
+
+  // User-configurable whisper parameters + their on-disk store.
+  WhisperSettings        settings;
+  archive::KeyValueStore settingsStore;
+
   bool permissionRequested = false;
 
   // Guards against spawning the model-loader thread more than once
@@ -235,6 +246,17 @@ static void handleCommand(struct android_app* state, int32_t cmd) {
       wa->vk.dirty       = true;
       pushContentRect(state, wa);
 
+      // Restore text into the freshly-built UI: prefer the in-memory copy
+      // (survives an app-switch), else the on-disk copy (process death). Then
+      // seed the History panel from the store.
+      {
+        std::string restored = !wa->savedTranscription.empty()
+            ? wa->savedTranscription : wa->history.loadCurrent();
+        if (!restored.empty()) wa->vk.ui.setTranscription(restored);
+        wa->vk.ui.setHistory(wa->history.entries(), wa->history.enabled());
+        wa->vk.ui.bindSettings(&wa->settings);
+      }
+
       bool hasPerm = checkAudioPermission(state->activity);
       if (!hasPerm) {
         wa->vk.ui.state = AppState::NeedPermission;
@@ -260,6 +282,12 @@ static void handleCommand(struct android_app* state, int32_t cmd) {
     }
 
     case APP_CMD_TERM_WINDOW:
+      // The whole App/Ui is rebuilt below, so stash the text first (in memory
+      // for the app-switch case, and on disk for a process death).
+      if (wa->vk.initialized) {
+        wa->savedTranscription = wa->vk.ui.transcription;
+        wa->history.saveCurrent(wa->savedTranscription);
+      }
       wa->vk.cleanup();
       new (&wa->vk) App();
       wa->vk.initialized = false;
@@ -312,10 +340,15 @@ static int32_t handleInput(struct android_app* state, AInputEvent* event) {
   float x = AMotionEvent_getX(event, 0);
   float y = AMotionEvent_getY(event, 0);
 
-  // Drag to scroll the transcription text area.
+  // Drag to scroll the transcription text area / move settings sliders.
   if (action == AMOTION_EVENT_ACTION_MOVE) {
     wa->vk.ui.onDragMove(x, y);
     if (wa->vk.ui.dirty) wa->vk.dirty = true;
+    return 1;
+  }
+  // Release ends a drag (e.g. lets go of a settings slider).
+  if (action == AMOTION_EVENT_ACTION_UP || action == AMOTION_EVENT_ACTION_CANCEL) {
+    wa->vk.ui.onDragEnd(x, y, action == AMOTION_EVENT_ACTION_UP);
     return 1;
   }
   if (action != AMOTION_EVENT_ACTION_DOWN) return 0;
@@ -355,7 +388,7 @@ static int32_t handleInput(struct android_app* state, AInputEvent* event) {
       wa->vk.ui.state = AppState::Idle;
       wa->vk.ui.dirty = true; wa->vk.ui.geomDirty = true;
     } else {
-      transcribeAsync(wa->whisperCtx, std::move(samples),
+      transcribeAsync(wa->whisperCtx, std::move(samples), wa->settings,
                       [wa](TranscribeResult r) {
                         std::lock_guard<std::mutex> lock(wa->resultMutex);
                         wa->pendingResult = std::move(r);
@@ -375,6 +408,11 @@ void android_main(struct android_app* state) {
   state->userData    = &wa;
   state->onAppCmd    = handleCommand;
   state->onInputEvent = handleInput;
+
+  // Persistence stores live in app-private storage (no permissions needed).
+  wa.history.init(state->activity->internalDataPath);
+  wa.settingsStore.init(state->activity->internalDataPath, "settings");
+  wa.settings.load(wa.settingsStore);
 
   while (true) {
     int events;
@@ -431,11 +469,35 @@ void android_main(struct android_app* state) {
         wa.vk.ui.transcription += r.text;
         wa.vk.ui.scrollTextToBottom();
         wa.vk.ui.state = AppState::Idle;
+        // Persist the growing session so it survives a process death too.
+        wa.savedTranscription = wa.vk.ui.transcription;
+        wa.history.saveCurrent(wa.savedTranscription);
       } else {
         wa.vk.ui.errorMsg = r.text;
         wa.vk.ui.state    = AppState::Error;
       }
       wa.vk.ui.dirty = true; wa.vk.ui.geomDirty = true;
+    }
+
+    // Apply History-panel requests raised by UI touches (file I/O lives here so
+    // the UI stays I/O-free). Re-seed the panel after store mutations.
+    if (wa.vk.initialized) {
+      std::string arch = wa.vk.ui.takeArchiveText();
+      if (!arch.empty()) {
+        wa.history.archive(arch);
+        wa.vk.ui.setHistory(wa.history.entries(), wa.history.enabled());
+      }
+      if (wa.vk.ui.takeHistoryToggle())
+        wa.history.setEnabled(wa.vk.ui.historyEnabled());
+      if (wa.vk.ui.takeHistoryClearAll()) {
+        wa.history.clearAll();
+        wa.vk.ui.setHistory(wa.history.entries(), wa.history.enabled());
+      }
+      if (wa.vk.ui.takePersistCurrent()) {
+        wa.savedTranscription = wa.vk.ui.transcription;
+        wa.history.saveCurrent(wa.vk.ui.transcription);
+      }
+      if (wa.vk.ui.takeSettingsSave()) wa.settings.save(wa.settingsStore);
     }
 
     if (wa.vk.ui.dirty) wa.vk.dirty = true;

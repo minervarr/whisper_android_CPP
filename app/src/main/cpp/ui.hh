@@ -1,14 +1,17 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "canvas.hh"  // Rect
+#include "settings.hh"
 #include "textarea.hh"
+#include "widgets.hh"
 
 struct Font;
 
-enum class AppState { LoadingModel, NeedPermission, Idle, Recording, Processing, Error, PickingModel };
+enum class AppState { LoadingModel, NeedPermission, Idle, Recording, Processing, Error, PickingModel, Settings };
 
 class Ui {
  public:
@@ -20,13 +23,39 @@ class Ui {
   // negative dy => reveal later text).
   void onDragStart(float px, float py);
   void onDragMove(float px, float py);
+  void onDragEnd(float px, float py, bool isUp);
   bool dragInText() const { return dragInText_; }
+
+  // ── Settings interface ─────────────────────────────────────────────────────
+  // Host binds the live settings object and reads takeSettingsSave() to persist.
+  void bindSettings(WhisperSettings* s) { settings_ = s; }
+  bool takeSettingsSave() { bool r = settingsSaveReq_; settingsSaveReq_ = false; return r; }
   // True when the user just tapped COPY and there is text to copy. The host
   // reads this (and the transcription) to push to the system clipboard, then
   // clears it via takeCopyRequest().
   bool takeCopyRequest();
   // Pin the text view to the bottom (call after appending a new result).
   void scrollTextToBottom() { pinBottom_ = true; dirty = true; geomDirty = true; }
+
+  // ── History interface (persistence handled by the host) ────────────────────
+  // The host seeds these from the on-disk store and reads back the request
+  // flags each frame to perform file I/O (Ui itself does no I/O).
+  void setHistory(std::vector<std::string> entries, bool enabled) {
+    historyEntries_ = std::move(entries); historyEnabled_ = enabled;
+    dirty = true; geomDirty = true;
+  }
+  bool historyEnabled() const { return historyEnabled_; }
+  void setTranscription(const std::string& t) {  // restore on launch
+    transcription = t; scrollTextToBottom();
+  }
+  // Returns non-empty text the host should append to history (set when the user
+  // hits CLEAR while archiving is enabled), else empty.
+  std::string takeArchiveText() { std::string t = std::move(archiveText_); archiveText_.clear(); return t; }
+  bool takeHistoryToggle()   { bool r = histToggleReq_;   histToggleReq_   = false; return r; }
+  bool takeHistoryClearAll() { bool r = histClearAllReq_; histClearAllReq_ = false; return r; }
+  // True when transcription was changed by a user action and current.txt should
+  // be re-persisted.
+  bool takePersistCurrent()  { bool r = persistCurrentReq_; persistCurrentReq_ = false; return r; }
 
   // Pass a loaded Font to use OTF rendering; nullptr falls back to stroke glyphs.
   // When msdf + quadsOut are provided, text is emitted as MSDF glyph quads into
@@ -47,6 +76,7 @@ class Ui {
 
   bool dirty = true;
   bool geomDirty = true;   // geometry (quads/curves) needs rebuild, not just redraw
+  bool quadsDirty = true;  // only MSDF quads need rebuild, bypassing expensive curve compute
 
   // State written by main thread
   AppState    state       = AppState::LoadingModel;
@@ -71,11 +101,60 @@ class Ui {
   Rect loadBtnRect;
   Rect copyBtnRect;
   Rect clearBtnRect;
+  Rect histBtnRect;        // toolbar: open/close History panel
+  Rect histToggleRect;     // panel header: enable/disable archiving
+  Rect histClearAllRect;   // panel header: wipe history
+
+  // History panel state.
+  bool                     showHistory_    = false;
+  bool                     wasLoadedFromHistory_ = false;
+  bool                     historyEnabled_ = true;
+  std::vector<std::string> historyEntries_;
+  // Hit-test rows for the displayed entries (rect + entry index), cached from
+  // the last rebuildCurves so onTouch can resolve taps.
+  std::vector<std::pair<Rect, int>> historyRows_;
+
+  std::string archiveText_;
+  bool histToggleReq_     = false;
+  bool histClearAllReq_   = false;
+  bool persistCurrentReq_ = false;
+
+  void emitHistoryPanel(Canvas& c);   // draws the overlay; fills historyRows_
+
+  // ── Settings screen ─────────────────────────────────────────────────────────
+  Rect gearRect;                      // status-bar button that opens Settings
+  WhisperSettings* settings_ = nullptr;
+  bool   settingsSaveReq_ = false;
+  int    settingsTab_     = 0;        // 0 = Simple, 1 = Advanced
+  float  settingsScroll_  = 0.0f;
+  float  settingsMaxScroll_ = 0.0f;
+  bool   langOpen_        = false;    // language dropdown overlay open
+  bool   langJustOpened_  = false;    // flag to ignore immediate tap
+  float  langScroll_      = 0.0f;
+  int    activeSlider_    = -1;       // index into settingHits_ being dragged
+
+  // A hit region + the mutation it performs, described as plain data (no
+  // std::function) so rebuilding the form every interactive frame allocates
+  // nothing. `p` points into the bound WhisperSettings; f0/f1/f2/i0 are params.
+  enum class SettingAction : uint8_t { Back, Reset, Tab, Toggle, Step, Seg, OpenLang, Slider };
+  struct SettingHit {
+    Rect rect; SettingAction kind; void* p = nullptr;
+    float f0 = 0, f1 = 0, f2 = 0; int i0 = 0;
+  };
+  std::vector<SettingHit> settingHits_;     // all interactive regions this frame
+  std::vector<widgets::ListRow> langRows_;  // language dropdown hit rows
+
+  void emitSettings(Canvas& c, std::vector<float>* quadsOut);       // draws Settings screen; fills settingHits_
+  void applySettingHit(const SettingHit& h, float px);
+  bool onTouchSettings(float px, float py);  // DOWN dispatch; true if handled
 
   // Scrollable transcription / error text view.
   TextArea textArea_;
   bool  dragInText_   = false;
   float lastTouchY_   = 0.0f;
+  float downTouchX_   = 0.0f;
+  float downTouchY_   = 0.0f;
+  float maxDragDistSq_= 0.0f;
   bool  copyRequested_ = false;
 
   // GPU-scroll state (text geometry is static; scroll is a shader offset).

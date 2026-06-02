@@ -138,21 +138,17 @@ whisper_context* loadModelFromPath(const char* modelPath, std::string& outModelN
 
 void transcribeAsync(whisper_context* ctx,
                      std::vector<float> samples,
+                     WhisperSettings settings,
                      std::function<void(TranscribeResult)> callback) {
-  std::thread([ctx, samples = std::move(samples), cb = std::move(callback)]() {
+  std::thread([ctx, samples = std::move(samples), settings = std::move(settings),
+               cb = std::move(callback)]() {
     TranscribeResult result;
 
-    whisper_full_params params = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);
-    params.language             = "auto";
-    params.translate            = false;
-    params.n_threads            = 4;
-    params.print_progress       = false;
-    params.print_realtime       = false;
-    params.print_special        = false;
-    params.print_timestamps     = false;
-    params.single_segment       = false;
-    params.suppress_blank       = true;
-    params.greedy.best_of       = 1;  // default 5 runs decoder 5× — 1 is ~5× faster
+    // Build params from user settings. `settings` stays alive for the whole
+    // whisper_full() call, so its string fields (language, initial_prompt) which
+    // params points into remain valid.
+    whisper_full_params params;
+    buildParams(settings, params);
 
     int rc = whisper_full(ctx, params, samples.data(), (int)samples.size());
     if (rc != 0) {

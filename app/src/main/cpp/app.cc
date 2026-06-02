@@ -474,17 +474,20 @@ void App::drawFrame() {
 
   vkResetCommandBuffer(commandBuffer, 0);
 
-  // Rebuild geometry only when content changes — NOT on scroll. Scrolling just
+  // Rebuild geometry only when content changes - NOT on scroll. Scrolling just
   // changes a shader push-constant offset (see drawMsdfRange below).
   bool runCompute = ui.geomDirty;
-  if (ui.geomDirty) {
+  if (ui.geomDirty || ui.quadsDirty) {
     const MsdfFont* mf = msdfFont.valid() ? &msdfFont : nullptr;
     ui.rebuildCurves(scratchCurves, font.ftFace ? &font : nullptr, mf, &scratchQuads);
-    renderer.uploadCurves(scratchCurves.data(),
-                          (uint32_t)(scratchCurves.size() / Renderer::CURVE_FLOATS));
+    if (ui.geomDirty) {
+      renderer.uploadCurves(scratchCurves.data(),
+                            (uint32_t)(scratchCurves.size() / Renderer::CURVE_FLOATS));
+    }
     renderer.uploadGlyphQuads(scratchQuads.data(),
                               (uint32_t)(scratchQuads.size() / Renderer::MSDF_VERT_FLOATS));
     ui.geomDirty = false;
+    ui.quadsDirty = false;
   }
   ui.dirty = false;
 

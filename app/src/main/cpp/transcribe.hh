@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "settings.hh"
+
 struct whisper_context;
 
 struct TranscribeResult {
@@ -23,4 +25,5 @@ whisper_context* loadModelFromPath(const char* modelPath, std::string& outModelN
 // from that thread — caller must synchronize (e.g. atomic flag + main loop).
 void transcribeAsync(whisper_context* ctx,
                      std::vector<float> samples,
+                     WhisperSettings settings,
                      std::function<void(TranscribeResult)> callback);

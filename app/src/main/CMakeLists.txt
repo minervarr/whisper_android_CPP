@@ -7,6 +7,7 @@ set(VCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/../../../vulkan_canvas_engine)
 set(VCE_CPP  ${VCE_DIR}/app/src/main/cpp)
 set(VFE_MAIN ${VCE_DIR}/vulkan_font_engine/app/src/main)
 set(VFE_CPP  ${VFE_MAIN}/cpp)
+set(ARC_CPP  ${VCE_DIR}/archive_engine/app/src/main/cpp)
 
 # FreeType — bundled inside vulkan_font_engine submodule
 set(FT_DISABLE_ZLIB      ON CACHE BOOL "" FORCE)
@@ -44,8 +45,11 @@ add_library(whisper_android SHARED
     cpp/ui.cc
     cpp/audio.cc
     cpp/transcribe.cc
+    cpp/settings.cc
+    ${ARC_CPP}/archive.cc
     ${VCE_CPP}/canvas.cc
     ${VCE_CPP}/textarea.cc
+    ${VCE_CPP}/widgets.cc
     ${VFE_CPP}/renderer.cc
     ${VFE_CPP}/font.cc
     ${VFE_CPP}/glyphs.cc
@@ -58,6 +62,7 @@ target_include_directories(whisper_android PRIVATE
     cpp/
     ${VFE_CPP}
     ${VCE_CPP}
+    ${ARC_CPP}
     ${VFE_MAIN}/freetype/include
     cpp/whisper.cpp/
     cpp/whisper.cpp/include/

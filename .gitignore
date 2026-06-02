@@ -37,3 +37,11 @@ screenshots/
 
 .antigravitycli/
 bruno.jks
+
+# Rust / Cargo build artifacts
+**/target/
+*.exe
+*.pdb
+
+# Backup files
+*.bak
